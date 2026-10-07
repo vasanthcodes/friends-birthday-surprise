@@ -1,6 +1,6 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
-import { ArrowLeft, Copy, Heart, Link2, RefreshCw, Sparkles, Users } from "lucide-react";
+import { ArrowLeft, Copy, Heart, Link2, RefreshCw, Sparkles, Users, Brain } from "lucide-react";
 import { motion } from "framer-motion";
 import goaPuzzle from "@/assets/Goa/goa 12.jpg";
 import bngPuzzle from "@/assets/bangalore 19.JPG";
@@ -117,9 +117,21 @@ const GamesPage = () => {
       <section className="mx-auto max-w-6xl px-5 pb-14 sm:px-8">
         <div className="mb-8 max-w-2xl">
           <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.22em] text-orange-200/80"><Heart className="h-3.5 w-3.5 fill-current" /> long-distance little things</p>
-          <h1 className="font-beach-day text-5xl leading-[.95] text-white sm:text-7xl">A puzzle for the two of us.</h1>
-          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70">Pick a memory, scatter it apart, then put it back together — from wherever we happen to be.</p>
+          <h1 className="font-beach-day text-5xl leading-[.95] text-white sm:text-7xl">Just us, playing.</h1>
+          <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70">Two little games made just for you. Take your time.</p>
         </div>
+
+        {/* Guess the Memory card */}
+        <Link to="/games/guess" className="group mb-8 block rounded-3xl border border-white/15 bg-white/[.07] p-6 backdrop-blur-md transition hover:-translate-y-1 hover:border-orange-200/40 hover:shadow-xl hover:shadow-orange-200/10 sm:p-8">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.22em] text-orange-200/80"><Brain className="h-3.5 w-3.5" /> New game</p>
+              <h2 className="font-beach-day text-3xl text-white sm:text-4xl">Guess the Memory</h2>
+              <p className="mt-2 max-w-md text-sm text-white/60">A blurred photo. A little hint. Can you remember the moment? Type your guess and watch it come back to life. 🌊</p>
+            </div>
+            <span className="shrink-0 rounded-full bg-orange-200 px-4 py-2 text-sm font-semibold text-slate-900 transition group-hover:bg-white">Play →</span>
+          </div>
+        </Link>
 
         {!isRoom && <div className="mb-8 grid gap-4 rounded-3xl border border-white/15 bg-white/[.07] p-5 backdrop-blur-md md:grid-cols-[1fr_auto] md:items-end">
           <div>
