@@ -2,7 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import confetti from "canvas-confetti";
-import { Gamepad2, Heart } from "lucide-react";
+import { Gamepad2, Heart, Music2 } from "lucide-react";
 import HeroSection from "@/components/HeroSection";
 import PlaceCard from "@/components/PlaceCard";
 import Footer from "@/components/Footer";
@@ -107,6 +107,19 @@ const Index = () => {
                 ))}
               </div>
             </section>
+            <section className="px-6 pb-8">
+              <Link to="/songs" className="group mx-auto block max-w-5xl overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-purple-400/20 via-pink-100/10 to-violet-200/20 p-8 shadow-2xl backdrop-blur-md transition hover:-translate-y-1 hover:border-white/50 md:p-12">
+                <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
+                  <div>
+                    <p className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.22em] text-purple-200"><Music2 className="h-4 w-4" /> our playlist</p>
+                    <h2 className="font-beach-day text-4xl leading-tight text-white md:text-6xl">Songs that feel<br /><span className="text-purple-200">like you.</span></h2>
+                    <p className="mt-4 max-w-xl font-body text-white/75">Every song here means something. Updated whenever I find one that reminds me of you.</p>
+                  </div>
+                  <span className="inline-flex shrink-0 items-center gap-2 rounded-full bg-purple-200 px-5 py-3 text-sm font-semibold text-slate-900 transition group-hover:bg-white"><Music2 className="h-4 w-4" /> Open playlist</span>
+                </div>
+              </Link>
+            </section>
+
             <section className="px-6 pb-20">
               <Link to="/games" className="group mx-auto block max-w-5xl overflow-hidden rounded-3xl border border-white/30 bg-gradient-to-br from-rose-200/20 via-orange-100/10 to-sky-200/20 p-8 shadow-2xl backdrop-blur-md transition hover:-translate-y-1 hover:border-white/50 md:p-12">
                 <div className="flex flex-col items-start justify-between gap-6 sm:flex-row sm:items-end">
