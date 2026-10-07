@@ -1,15 +1,28 @@
 import { Link, useSearchParams } from "react-router-dom";
 import { useCallback, useEffect, useRef, useState, type PointerEvent } from "react";
-import { ArrowLeft, Copy, Heart, Link2, RefreshCw, Sparkles, Users, Brain } from "lucide-react";
+import { ArrowLeft, Copy, Heart, Link2, RefreshCw, Sparkles, Users, Brain, Shuffle } from "lucide-react";
 import { motion } from "framer-motion";
+import { Shuffle } from "lucide-react";
 import goaPuzzle from "@/assets/Goa/goa 12.jpg";
+import goa3 from "@/assets/Goa/goa 3.JPG";
+import goa7 from "@/assets/Goa/goa 7.JPG";
+import goa9 from "@/assets/Goa/goa 9.jpg";
 import bngPuzzle from "@/assets/bangalore 19.JPG";
+import bng5 from "@/assets/bangalore 5.JPG";
+import bng12 from "@/assets/bangalore 12.JPG";
+import bng22 from "@/assets/bangalore 22.JPG";
 import { createPuzzleRoom, getPuzzleRoom, PuzzleRoomState, roomSyncEnabled, savePuzzleRoom } from "@/lib/puzzle-room";
 
 type Picture = { id: string; name: string; note: string; src: string };
 const pictures: Picture[] = [
   { id: "goa", name: "That Goa sunshine", note: "saltwater, soft skies, us", src: goaPuzzle },
+  { id: "goa3", name: "Goa mornings", note: "slow and golden", src: goa3 },
+  { id: "goa7", name: "By the water", note: "you and the waves", src: goa7 },
+  { id: "goa9", name: "Saltwater days", note: "soaking it all in", src: goa9 },
   { id: "bengaluru", name: "Our Bengaluru", note: "home, but with you in it", src: bngPuzzle },
+  { id: "bng5", name: "Bangalore walks", note: "bags, streets, us", src: bng5 },
+  { id: "bng12", name: "City nights", note: "lights everywhere", src: bng12 },
+  { id: "bng22", name: "Just us", note: "the simplest thing", src: bng22 },
 ];
 
 const pieceId = (index: number) => `piece-${index}`;
@@ -45,6 +58,14 @@ const GamesPage = () => {
     setGame(newState(nextImage, nextDifficulty));
     setStatus("A fresh little mess of pieces, ready for you.");
   }, [difficulty, imageId]);
+
+  const shufflePicture = useCallback(() => {
+    const others = pictures.filter((p) => p.id !== imageId);
+    const next = others[Math.floor(Math.random() * others.length)];
+    setImageId(next.id);
+    reset(next.id, difficulty);
+    setStatus(`Shuffled to: ${next.name} ✨`);
+  }, [imageId, difficulty, reset]);
 
   useEffect(() => {
     if (!roomId || !roomSyncEnabled) return;
@@ -141,7 +162,7 @@ const GamesPage = () => {
           <div><p className="mb-3 text-xs font-semibold uppercase tracking-[.18em] text-white/50">Pieces</p><div className="flex gap-2">{([16, 25] as const).map((count) => <button key={count} onClick={() => { setDifficulty(count); reset(imageId, count); }} className={`rounded-full px-4 py-2 text-sm transition ${difficulty === count ? "bg-orange-200 text-slate-900" : "bg-white/10 text-white/75 hover:bg-white/20"}`}>{count} pieces</button>)}</div></div>
         </div>}
 
-        <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><p className="text-sm text-orange-100/80"><Sparkles className="mr-1.5 inline h-4 w-4" />{completed ? "We did it. Another memory, put back together. ♡" : status}</p><div className="flex gap-2">{isRoom ? <button onClick={copyInvite} className="inline-flex items-center gap-2 rounded-full bg-orange-200 px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-orange-100"><Copy className="h-4 w-4" /> Copy our link</button> : <button onClick={createRoom} className="inline-flex items-center gap-2 rounded-full bg-orange-200 px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-orange-100"><Users className="h-4 w-4" /> Set a table for two</button>}<button onClick={() => reset(game.imageId, game.difficulty)} className="rounded-full border border-white/15 p-2.5 text-white/75 hover:bg-white/10" aria-label="Shuffle pieces"><RefreshCw className="h-4 w-4" /></button></div></div>
+        <div className="mb-5 flex flex-wrap items-center justify-between gap-3"><p className="text-sm text-orange-100/80"><Sparkles className="mr-1.5 inline h-4 w-4" />{completed ? "We did it. Another memory, put back together. ♡" : status}</p><div className="flex gap-2">{isRoom ? <button onClick={copyInvite} className="inline-flex items-center gap-2 rounded-full bg-orange-200 px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-orange-100"><Copy className="h-4 w-4" /> Copy our link</button> : <button onClick={createRoom} className="inline-flex items-center gap-2 rounded-full bg-orange-200 px-4 py-2 text-sm font-medium text-slate-900 transition hover:bg-orange-100"><Users className="h-4 w-4" /> Set a table for two</button>}<button onClick={shufflePicture} className="rounded-full border border-white/15 p-2.5 text-white/75 hover:bg-white/10" aria-label="Shuffle picture" title="Random photo"><Shuffle className="h-4 w-4" /></button><button onClick={() => reset(game.imageId, game.difficulty)} className="rounded-full border border-white/15 p-2.5 text-white/75 hover:bg-white/10" aria-label="Reshuffle pieces" title="Reshuffle pieces"><RefreshCw className="h-4 w-4" /></button></div></div>
 
         <div className="grid gap-5 lg:grid-cols-[1fr_250px]">
           <PuzzleBoard game={game} picture={picture} columns={columns} onMove={movePiece} onPreview={(id, x, y) => setGame((current) => ({ ...current, pieces: { ...current.pieces, [id]: { x, y } } }))} />
